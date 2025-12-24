@@ -1,32 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="styles.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus App</title>
-        <script type="module" src="/main.js" defer></script>
-    </head>
-
-    <body>
-        <main class="container">
-            <h1>Welcome to PakePlus</h1>
-            <form class="row" id="greet-form">
-                <input id="inputValue" placeholder="Enter a something..." />
-            </form>
-            <div class="resultBox">
-                <span>result: </span>
-                <span id="result"></span>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>丹丘僧的书屋 - 本地化专业文档阅读器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>丹丘僧的书屋</h1>
+                </div>
+                <button id="importBtn" class="btn primary">
+                    <i class="fas fa-folder-plus"></i> 导入文档
+                </button>
+                <input id="fileInput" class="file-input" type="file" accept="application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx" multiple hidden>
             </div>
-            <div class="invokeBox">
-                <button id="openUrl">open_url_browser</button>
-                <button id="openUrlNew">open_url_new</button>
-                <button id="runCommand">run_command</button>
-                <button id="downloadFile">download_file</button>
-                <button id="getExeDir">get_exe_dir</button>
-                <button id="getEnvVar">get_env_var</button>
-                <button id="findPort">find_port</button>
+            
+            <div class="bookshelf">
+                <div class="bookshelf-header">
+                    <h3>我的书架 <span id="bookCount" class="count-badge">0</span></h3>
+                    <div class="search-box compact">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="搜索...">
+                    </div>
+                </div>
+                <div id="globalSearchResults" class="global-search-results" hidden></div>
+                <ul id="bookList">
+                    <!-- 动态加载的书籍列表 -->
+                </ul>
+            </div>
+        </aside>
+
+        <div id="sidebarResizer" class="sidebar-resizer" aria-hidden="true"></div>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div id="pdfViewer" class="pdf-viewer">
+                <div id="pdfContainer">
+                    <!-- PDF 页面将在这里渲染 -->
+                    <div class="welcome-screen">
+                        <i class="fas fa-book-reader"></i>
+                        <h2>欢迎来到丹丘僧的书屋</h2>
+                        <p>拖放PDF文件到此处或点击上方按钮导入文档</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="status-bar">
+                <button id="eyeCareToggle" class="eye-care-toggle" title="切换护眼模式">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <span id="pageInfo">就绪</span>
+                <div class="progress-container">
+                    <div id="indexingProgress" class="progress-bar"></div>
+                </div>
             </div>
         </main>
-    </body>
+        
+        <!-- 搜索面板 -->
+        <div id="searchPanel" class="search-panel">
+            <div class="search-panel-header">
+                <h3>搜索结果</h3>
+                <button id="closeSearchPanel" class="btn icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="search-results">
+                <!-- 搜索结果将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+</body>
 </html>
